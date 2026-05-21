@@ -1,0 +1,18 @@
+{
+  "name": "ada-spark",
+  "description": "Skill that teaches coding agents to write idiomatic, correct, current Ada and SPARK. Rides the latest toolchain (Alire + GNAT FSF, Ada 2022) and prevents stale pre-2022 assumptions.",
+  "version": "0.1.0",
+  "owner": {
+    "name": "Avi Fenesh",
+    "url": "https://github.com/avifenesh"
+  },
+  "plugins": [
+    {
+      "name": "ada-spark",
+      "source": "./",
+      "description": "Write idiomatic, correct, current Ada and SPARK - contracts (aspects, Pre'Class), the Alire ecosystem, SPARK proof (AoRTE, assurance levels, ownership/borrow), embedded (Ravenscar/Jorvik, light runtimes), and GNAT/GNATprove/GNAT SAS tooling. Prevents stale pre-2022 assumptions.",
+      "version": "0.1.0",
+      "category": "development"
+    }
+  ]
+}

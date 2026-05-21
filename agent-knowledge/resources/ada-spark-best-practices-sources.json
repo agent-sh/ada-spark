@@ -1,0 +1,519 @@
+{
+  "topic": "Ada and SPARK best practices, gotchas, ecosystem, and LLM blind spots",
+  "slug": "ada-spark-best-practices",
+  "generated": "2026-05-21T00:00:00Z",
+  "lastExtended": "2026-05-21T00:00:00Z",
+  "depth": "deep",
+  "totalSources": 50,
+  "sourceBreakdown": {
+    "officialDocs": 28,
+    "tutorials": 6,
+    "qa": 3,
+    "blogs": 9,
+    "githubExamples": 3,
+    "productPages": 1
+  },
+  "notes": "confidence reflects how trustworthy and current the source is for the claims drawn from it (10 = official AdaCore/ARM/SPARK spec, recent). Several version numbers are from 2025-2026 'wave' (27.0w) dev docs and should be re-verified against stable release notes before production citation. 2026-05-21 extension added 5 sources for class-wide/inheritance contracts, generics in SPARK, and GNAT SAS (renamed CodePeer).",
+  "sources": [
+    {
+      "url": "https://www.adacore.com/blog/a-new-era-for-ada-spark-open-source-community",
+      "title": "A New Era For Ada/SPARK Open Source Community",
+      "type": "blog",
+      "qualityScore": 95,
+      "authority": 10, "recency": 9, "depth": 8, "examples": 5, "uniqueness": 10,
+      "confidence": 10,
+      "keyInsights": ["GNAT Community last release was 2021; discontinued", "GNAT Pro (commercial) vs GNAT FSF (community)", "Alire replaces GNAT Community for OSS users"]
+    },
+    {
+      "url": "https://alire.ada.dev/transition_from_gnat_community.html",
+      "title": "Alire - Transition from GNAT Community",
+      "type": "officialDocs",
+      "qualityScore": 92,
+      "authority": 10, "recency": 9, "depth": 7, "examples": 6, "uniqueness": 8,
+      "confidence": 10,
+      "keyInsights": ["Migration path Community -> Alire", "Alire provides GNAT Studio, SPARK, cross compilers"]
+    },
+    {
+      "url": "https://alire.ada.dev/",
+      "title": "Alire - Ada LIbrary REpository",
+      "type": "officialDocs",
+      "qualityScore": 90,
+      "authority": 10, "recency": 9, "depth": 6, "examples": 6, "uniqueness": 7,
+      "confidence": 10,
+      "keyInsights": ["alr is cargo/opam analogue", "catalog at alire.ada.dev"]
+    },
+    {
+      "url": "https://alire.ada.dev/docs/",
+      "title": "Alire Docs",
+      "type": "officialDocs",
+      "qualityScore": 90,
+      "authority": 10, "recency": 9, "depth": 8, "examples": 8, "uniqueness": 6,
+      "confidence": 10,
+      "keyInsights": ["alr 2.x shared dependencies, binary toolchain install", "publish workflow"]
+    },
+    {
+      "url": "https://docs.adacore.com/live/wave/alire/html/alire/getting_started.html",
+      "title": "Alire 27.0w Getting Started",
+      "type": "officialDocs",
+      "qualityScore": 88,
+      "authority": 10, "recency": 10, "depth": 7, "examples": 8, "uniqueness": 5,
+      "confidence": 9,
+      "keyInsights": ["Dated 20260514 wave build", "alr command basics"]
+    },
+    {
+      "url": "https://github.com/alire-project/alire",
+      "title": "alire-project/alire (GitHub)",
+      "type": "githubExamples",
+      "qualityScore": 88,
+      "authority": 9, "recency": 9, "depth": 7, "examples": 7, "uniqueness": 6,
+      "confidence": 9,
+      "keyInsights": ["alr source + releases", "command-line tool"]
+    },
+    {
+      "url": "https://github.com/alire-project/GNAT-FSF-builds",
+      "title": "alire-project/GNAT-FSF-builds (GitHub)",
+      "type": "githubExamples",
+      "qualityScore": 87,
+      "authority": 9, "recency": 10, "depth": 6, "examples": 6, "uniqueness": 8,
+      "confidence": 9,
+      "keyInsights": ["GNAT FSF builds from GCC releases", "tags like gnat-15.2.0-1"]
+    },
+    {
+      "url": "https://alire.ada.dev/crates/gnat_native",
+      "title": "Alire crate: gnat_native",
+      "type": "officialDocs",
+      "qualityScore": 82,
+      "authority": 9, "recency": 10, "depth": 5, "examples": 5, "uniqueness": 6,
+      "confidence": 8,
+      "keyInsights": ["gnat_native ~15.2.x via Alire toolchain"]
+    },
+    {
+      "url": "https://gcc.gnu.org/onlinedocs/gnat_rm/Implementation-of-Ada-2022-Features.html",
+      "title": "Implementation of Ada 2022 Features (GNAT Reference Manual)",
+      "type": "officialDocs",
+      "qualityScore": 94,
+      "authority": 10, "recency": 9, "depth": 9, "examples": 7, "uniqueness": 8,
+      "confidence": 10,
+      "keyInsights": ["-gnat2022 flag", "string interpolation, storage model, Default_Initial_Condition", "'Image any type"]
+    },
+    {
+      "url": "https://gcc.gnu.org/onlinedocs/gcc-14/changes.html",
+      "title": "GCC 14 Release Series Changes",
+      "type": "officialDocs",
+      "qualityScore": 85,
+      "authority": 10, "recency": 8, "depth": 6, "examples": 4, "uniqueness": 6,
+      "confidence": 9,
+      "keyInsights": ["GCC 14 Ada hardening, new architectures (LoongArch)"]
+    },
+    {
+      "url": "http://www.ada-auth.org/standards/22rm/html/RM-TOC.html",
+      "title": "Ada 2022 Reference Manual (ARM)",
+      "type": "officialDocs",
+      "qualityScore": 96,
+      "authority": 10, "recency": 9, "depth": 10, "examples": 6, "uniqueness": 9,
+      "confidence": 10,
+      "keyInsights": ["Authoritative Ada 2022 language definition"]
+    },
+    {
+      "url": "http://www.ada-auth.org/standards/22over/Ada2022-Overview.pdf",
+      "title": "Overview of Ada 2022 (Language Enhancement Guide)",
+      "type": "officialDocs",
+      "qualityScore": 90,
+      "authority": 10, "recency": 9, "depth": 9, "examples": 7, "uniqueness": 8,
+      "confidence": 10,
+      "keyInsights": ["@ target name, declare expressions, parallel loops, delta aggregates", "feature catalogue"]
+    },
+    {
+      "url": "https://learn.adacore.com/courses/whats-new-in-ada-2022/chapters/image_attribute.html",
+      "title": "learn.adacore.com - 'Image attribute for any type",
+      "type": "tutorials",
+      "qualityScore": 88,
+      "authority": 9, "recency": 9, "depth": 7, "examples": 9, "uniqueness": 6,
+      "confidence": 9,
+      "keyInsights": ["'Image applies to any type in Ada 2022", "Value'Image form since TC1 2016"]
+    },
+    {
+      "url": "https://learn.adacore.com/courses/whats-new-in-ada-2022/chapters/image_redefine.html",
+      "title": "learn.adacore.com - Redefining the 'Image attribute",
+      "type": "tutorials",
+      "qualityScore": 87,
+      "authority": 9, "recency": 9, "depth": 7, "examples": 9, "uniqueness": 6,
+      "confidence": 9,
+      "keyInsights": ["T'Put_Image for portable output"]
+    },
+    {
+      "url": "https://learn.adacore.com/courses/whats-new-in-ada-2022/chapters/delta_aggregates.html",
+      "title": "learn.adacore.com - Delta Aggregates",
+      "type": "tutorials",
+      "qualityScore": 86,
+      "authority": 9, "recency": 9, "depth": 7, "examples": 9, "uniqueness": 6,
+      "confidence": 9,
+      "keyInsights": ["delta aggregate copy-with-changes", "works with @ target name"]
+    },
+    {
+      "url": "https://learn.adacore.com/courses/whats-new-in-ada-2022/chapters/array_aggregates.html",
+      "title": "learn.adacore.com - Advanced Array Aggregates",
+      "type": "tutorials",
+      "qualityScore": 85,
+      "authority": 9, "recency": 9, "depth": 7, "examples": 9, "uniqueness": 6,
+      "confidence": 9,
+      "keyInsights": ["square-bracket aggregates", "iterated component association"]
+    },
+    {
+      "url": "https://gcc.gnu.org/onlinedocs/gnat_rm/Image-Values-For-Nonscalar-Types.html",
+      "title": "GNAT RM - Image Values For Nonscalar Types",
+      "type": "officialDocs",
+      "qualityScore": 89,
+      "authority": 10, "recency": 8, "depth": 8, "examples": 6, "uniqueness": 8,
+      "confidence": 10,
+      "keyInsights": ["'Image text deliberately undocumented/implementation-defined", "don't rely on formatting"]
+    },
+    {
+      "url": "https://docs.adacore.com/spark2014-docs/html/ug/en/source/usage_scenarios.html",
+      "title": "SPARK User's Guide - Applying SPARK in Practice (assurance levels)",
+      "type": "officialDocs",
+      "qualityScore": 95,
+      "authority": 10, "recency": 9, "depth": 10, "examples": 7, "uniqueness": 9,
+      "confidence": 10,
+      "keyInsights": ["Stone/Bronze/Silver/Gold/Platinum definitions", "AoRTE at Silver", "recommended targets per level"]
+    },
+    {
+      "url": "https://docs.adacore.com/spark2014-docs/html/ug/en/source/access.html",
+      "title": "SPARK UG 5.9 - Pointer Support, Ownership, Dynamic Memory",
+      "type": "officialDocs",
+      "qualityScore": 95,
+      "authority": 10, "recency": 9, "depth": 10, "examples": 8, "uniqueness": 10,
+      "confidence": 10,
+      "keyInsights": ["Move/Observe/Borrow semantics", "named access-to-constant not checked", "general access can't be deallocated"]
+    },
+    {
+      "url": "https://blog.adacore.com/using-pointers-in-spark",
+      "title": "AdaCore Blog - Using Pointers in SPARK",
+      "type": "blogs",
+      "qualityScore": 90,
+      "authority": 10, "recency": 8, "depth": 8, "examples": 8, "uniqueness": 9,
+      "confidence": 9,
+      "keyInsights": ["borrow checker walkthrough", "anonymous access borrowing"]
+    },
+    {
+      "url": "https://www.adacore.com/blog/pointer-based-data-structures-in-spark",
+      "title": "AdaCore - Pointer Based Data-Structures in SPARK",
+      "type": "blogs",
+      "qualityScore": 87,
+      "authority": 10, "recency": 8, "depth": 8, "examples": 8, "uniqueness": 8,
+      "confidence": 9,
+      "keyInsights": ["recursive structures with ownership"]
+    },
+    {
+      "url": "https://docs.adacore.com/live/wave/spark2014-release-notes/html/spark2014_release_note/release_notes_22.html",
+      "title": "SPARK 22 Release Notes",
+      "type": "officialDocs",
+      "qualityScore": 88,
+      "authority": 10, "recency": 9, "depth": 7, "examples": 5, "uniqueness": 8,
+      "confidence": 9,
+      "keyInsights": ["simpler memory model: allocators/Unchecked_Deallocation no longer touch abstract state"]
+    },
+    {
+      "url": "https://docs.adacore.com/spark2014-docs/html/lrm/subprograms.html",
+      "title": "SPARK Reference Manual 6 - Subprograms (contracts)",
+      "type": "officialDocs",
+      "qualityScore": 92,
+      "authority": 10, "recency": 9, "depth": 9, "examples": 6, "uniqueness": 8,
+      "confidence": 10,
+      "keyInsights": ["Global/Depends/Contract_Cases aspects", "same contexts as Pre/Post", "Pre'Class/Post'Class semantics, overriding VC"]
+    },
+    {
+      "url": "https://docs.adacore.com/spark2014-docs/html/ug/en/source/subprogram_contracts.html",
+      "title": "SPARK UG 5.2 - Subprogram Contracts",
+      "type": "officialDocs",
+      "qualityScore": 92,
+      "authority": 10, "recency": 9, "depth": 9, "examples": 8, "uniqueness": 7,
+      "confidence": 10,
+      "keyInsights": ["Pre/Post built on Ada 2012 executable contracts", "SPARK extends with aspects"]
+    },
+    {
+      "url": "https://docs.adacore.com/spark2014-docs/html/ug/en/source/how_to_write_subprogram_contracts.html",
+      "title": "SPARK UG 7.4 - How to Write Subprogram Contracts",
+      "type": "officialDocs",
+      "qualityScore": 90,
+      "authority": 10, "recency": 9, "depth": 9, "examples": 9, "uniqueness": 7,
+      "confidence": 10,
+      "keyInsights": ["practical contract writing", "'Old, 'Result"]
+    },
+    {
+      "url": "https://docs.adacore.com/spark2014-docs/html/lrm/introduction.html",
+      "title": "SPARK Reference Manual 1 - Introduction",
+      "type": "officialDocs",
+      "qualityScore": 88,
+      "authority": 10, "recency": 9, "depth": 7, "examples": 4, "uniqueness": 7,
+      "confidence": 10,
+      "keyInsights": ["SPARK aspects have equivalent pragmas for portability"]
+    },
+    {
+      "url": "https://docs.adacore.com/spark2014-docs/html/ug/en/source/specification_features.html",
+      "title": "SPARK UG 5.5 - Specification Features (ghost, Relaxed_Initialization)",
+      "type": "officialDocs",
+      "qualityScore": 91,
+      "authority": 10, "recency": 9, "depth": 9, "examples": 8, "uniqueness": 9,
+      "confidence": 10,
+      "keyInsights": ["'Initialized attribute", "Relaxed_Initialization opt-out", "ghost code"]
+    },
+    {
+      "url": "https://blog.adacore.com/relaxing-the-data-initialization-policy-of-spark",
+      "title": "AdaCore - Relaxing the Data Initialization Policy of SPARK",
+      "type": "blogs",
+      "qualityScore": 87,
+      "authority": 10, "recency": 8, "depth": 8, "examples": 7, "uniqueness": 9,
+      "confidence": 9,
+      "keyInsights": ["flow can't track array indices -> false alarms", "proof-based init via contracts"]
+    },
+    {
+      "url": "https://docs.adacore.com/spark2014-docs/html/ug/en/source/how_to_write_loop_invariants.html",
+      "title": "SPARK UG 7.7 - How to Write Loop Invariants",
+      "type": "officialDocs",
+      "qualityScore": 91,
+      "authority": 10, "recency": 9, "depth": 9, "examples": 9, "uniqueness": 8,
+      "confidence": 10,
+      "keyInsights": ["invariants are manual", "Loop_Variant for termination"]
+    },
+    {
+      "url": "https://docs.adacore.com/spark2014-docs/html/ug/en/source/loop.html",
+      "title": "SPARK UG 7.9.2 - Loop Examples",
+      "type": "officialDocs",
+      "qualityScore": 88,
+      "authority": 10, "recency": 9, "depth": 8, "examples": 10, "uniqueness": 6,
+      "confidence": 10,
+      "keyInsights": ["worked loop invariant examples"]
+    },
+    {
+      "url": "https://blog.adacore.com/using-spark-to-prove-255-bit-integer-arithmetic-from-curve25519",
+      "title": "AdaCore - Proving 255-bit Integer Arithmetic (Curve25519)",
+      "type": "blogs",
+      "qualityScore": 89,
+      "authority": 10, "recency": 8, "depth": 9, "examples": 8, "uniqueness": 10,
+      "confidence": 9,
+      "keyInsights": ["Big_Numbers in ghost specs", "inductive proof with incremental loop invariant"]
+    },
+    {
+      "url": "https://docs.adacore.com/spark2014-docs/html/ug/en/source/how_to_investigate_unproved_checks.html",
+      "title": "SPARK UG 7.8 - How to Investigate Unproved Checks",
+      "type": "officialDocs",
+      "qualityScore": 90,
+      "authority": 10, "recency": 9, "depth": 9, "examples": 7, "uniqueness": 9,
+      "confidence": 10,
+      "keyInsights": ["--level switch, prover timeout", "first-order logic undecidable", "nonlinear/float limits", "pragma Assume"]
+    },
+    {
+      "url": "https://docs.adacore.com/spark2014-docs/html/ug/en/source/spark_libraries.html",
+      "title": "SPARK UG 5.11 - SPARK Libraries (formal/functional containers)",
+      "type": "officialDocs",
+      "qualityScore": 89,
+      "authority": 10, "recency": 9, "depth": 8, "examples": 7, "uniqueness": 8,
+      "confidence": 10,
+      "keyInsights": ["Formal vs Functional containers", "functional containers for ghost code"]
+    },
+    {
+      "url": "https://docs.adacore.com/spark2014-docs/html/ug/en/source/concurrency.html",
+      "title": "SPARK UG 5.10 - Concurrency and Ravenscar Profile",
+      "type": "officialDocs",
+      "qualityScore": 87,
+      "authority": 10, "recency": 9, "depth": 8, "examples": 6, "uniqueness": 7,
+      "confidence": 10,
+      "keyInsights": ["SPARK concurrency under Ravenscar-style restrictions"]
+    },
+    {
+      "url": "https://www.adacore.com/blog/introduction-to-jorvik",
+      "title": "AdaCore - An Introduction to Jorvik",
+      "type": "blogs",
+      "qualityScore": 93,
+      "authority": 10, "recency": 8, "depth": 9, "examples": 7, "uniqueness": 10,
+      "confidence": 10,
+      "keyInsights": ["Jorvik introduced Ada 2022", "relaxes Max_Entry_Queue_Length, Max_Protected_Entries", "Pure_Barriers vs Simple_Barriers", "allows Ada.Calendar, relative delay"]
+    },
+    {
+      "url": "https://docs.adacore.com/gnat_ugx-docs/html/gnat_ugx/gnat_ugx/the_predefined_profiles.html",
+      "title": "GNAT UGX 4 - Predefined Profiles (Ravenscar/Jorvik)",
+      "type": "officialDocs",
+      "qualityScore": 88,
+      "authority": 10, "recency": 9, "depth": 8, "examples": 6, "uniqueness": 7,
+      "confidence": 10,
+      "keyInsights": ["pragma Profile (Jorvik/Ravenscar)", "profile restriction sets"]
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Ravenscar_profile",
+      "title": "Ravenscar profile (Wikipedia)",
+      "type": "tutorials",
+      "qualityScore": 72,
+      "authority": 6, "recency": 7, "depth": 7, "examples": 4, "uniqueness": 5,
+      "confidence": 7,
+      "keyInsights": ["historical/conceptual overview of Ravenscar"]
+    },
+    {
+      "url": "https://github.com/AdaCore/bb-runtimes",
+      "title": "AdaCore/bb-runtimes (GitHub)",
+      "type": "githubExamples",
+      "qualityScore": 88,
+      "authority": 9, "recency": 9, "depth": 7, "examples": 7, "uniqueness": 9,
+      "confidence": 9,
+      "keyInsights": ["bare-metal BSP/runtime generation", "depends on gcc+gnat repos", "light/light-tasking/embedded profiles"]
+    },
+    {
+      "url": "https://docs.adacore.com/gnat_ugx-docs/html/gnat_ugx/gnat_ugx/gnat_runtimes.html",
+      "title": "GNAT UGX 5 - Predefined GNAT Pro Run-Times",
+      "type": "officialDocs",
+      "qualityScore": 90,
+      "authority": 10, "recency": 9, "depth": 9, "examples": 6, "uniqueness": 9,
+      "confidence": 10,
+      "keyInsights": ["light runtime restrictions: No_Exception_Propagation/Registration/Finalization/Tasking", "Last_Chance_Handler, no resume"]
+    },
+    {
+      "url": "https://forum.ada-lang.io/t/gnat-light-runtimes-but-with-exception-propagation/4028/1",
+      "title": "Ada Forum - GNAT light runtimes but with exception propagation",
+      "type": "qa",
+      "qualityScore": 76,
+      "authority": 7, "recency": 9, "depth": 7, "examples": 5, "uniqueness": 8,
+      "confidence": 8,
+      "keyInsights": ["community discussion of light runtime exception limits", "local raise/handle still allowed"]
+    },
+    {
+      "url": "https://gcc.gnu.org/onlinedocs/gnat_ugn/Controlling-the-Elaboration-Order-in-Ada.html",
+      "title": "GNAT UG - Controlling the Elaboration Order in Ada",
+      "type": "officialDocs",
+      "qualityScore": 90,
+      "authority": 10, "recency": 8, "depth": 9, "examples": 7, "uniqueness": 8,
+      "confidence": 10,
+      "keyInsights": ["Elaborate_All transitive vs Elaborate", "Pure/Preelaborate/Elaborate_Body rule of thumb", "static vs dynamic model"]
+    },
+    {
+      "url": "https://docs.adacore.com/gprbuild-docs/html/gprbuild_ug/gnat_project_manager.html",
+      "title": "GPR Tools User's Guide - GNAT Project Manager",
+      "type": "officialDocs",
+      "qualityScore": 90,
+      "authority": 10, "recency": 9, "depth": 9, "examples": 8, "uniqueness": 7,
+      "confidence": 10,
+      "keyInsights": [".gpr Ada-like syntax", "Source_Dirs/Object_Dir/Main", "scenario vars via external()"]
+    },
+    {
+      "url": "https://learn.adacore.com/courses/GNAT_Toolchain_Intro/chapters/gprbuild.html",
+      "title": "learn.adacore.com - GPRbuild",
+      "type": "tutorials",
+      "qualityScore": 84,
+      "authority": 9, "recency": 9, "depth": 7, "examples": 9, "uniqueness": 5,
+      "confidence": 9,
+      "keyInsights": ["gprbuild as multi-language builder", "-P and -X switches"]
+    },
+    {
+      "url": "https://github.com/AdaCore/ada_language_server",
+      "title": "AdaCore/ada_language_server (GitHub)",
+      "type": "githubExamples",
+      "qualityScore": 87,
+      "authority": 10, "recency": 10, "depth": 7, "examples": 6, "uniqueness": 8,
+      "confidence": 9,
+      "keyInsights": ["LSP for Ada/SPARK", "VS Code extension on Marketplace + Open VSX", "--language-gpr"]
+    },
+    {
+      "url": "https://docs.adacore.com/live/wave/als/html/als-doc/vscode-ug.html",
+      "title": "Ada & SPARK VS Code Extension User's Guide",
+      "type": "officialDocs",
+      "qualityScore": 88,
+      "authority": 10, "recency": 10, "depth": 8, "examples": 7, "uniqueness": 8,
+      "confidence": 9,
+      "keyInsights": ["GNATformat default formatter", "GNATprove tasks + code lenses", "projectFile setting"]
+    },
+    {
+      "url": "https://github.com/AdaCore/libadalang",
+      "title": "AdaCore/libadalang (GitHub)",
+      "type": "githubExamples",
+      "qualityScore": 86,
+      "authority": 10, "recency": 9, "depth": 7, "examples": 6, "uniqueness": 8,
+      "confidence": 9,
+      "keyInsights": ["full Ada 2022 parsing + semantic analysis", "Ada/Python bindings", "powers GNAT SAS + formatter"]
+    },
+    {
+      "url": "https://docs.adacore.com/gnat_rm-docs/html/gnat_rm/gnat_rm/representation_clauses_and_pragmas.html",
+      "title": "GNAT RM 9 - Representation Clauses and Pragmas",
+      "type": "officialDocs",
+      "qualityScore": 88,
+      "authority": 10, "recency": 8, "depth": 8, "examples": 7, "uniqueness": 8,
+      "confidence": 10,
+      "keyInsights": ["rep-clause semantics depend on endianness/storage unit", "use for real hardware layout"]
+    },
+    {
+      "url": "https://learn.adacore.com/courses/intro-to-ada/chapters/fixed_point_types.html",
+      "title": "learn.adacore.com - Fixed-point types",
+      "type": "tutorials",
+      "qualityScore": 84,
+      "authority": 9, "recency": 9, "depth": 7, "examples": 9, "uniqueness": 6,
+      "confidence": 9,
+      "keyInsights": ["fixed-point modeled on integers", "range may stop at 'Last - Delta"]
+    },
+    {
+      "url": "https://docs.adacore.com/spark2014-docs/html/ug/en/source/language_restrictions.html",
+      "title": "SPARK UG 5.1 - Language Restrictions",
+      "type": "officialDocs",
+      "qualityScore": 90,
+      "authority": 10, "recency": 9, "depth": 9, "examples": 6, "uniqueness": 8,
+      "confidence": 10,
+      "keyInsights": ["what Ada constructs are excluded from SPARK subset", "SPARK_Mode On/Off/Auto", "GNATprove does not directly analyze generics; only instances; SPARK_Mode on instantiation context"]
+    },
+    {
+      "url": "https://www.adacore.com/blog/year-in-review-2025-a-transformative-year-for-high-integrity-software-at-adacore",
+      "title": "AdaCore - Year in Review 2025",
+      "type": "blogs",
+      "qualityScore": 83,
+      "authority": 10, "recency": 10, "depth": 6, "examples": 3, "uniqueness": 7,
+      "confidence": 9,
+      "keyInsights": ["GNAT Pro 25.x cadence", "NVIDIA ISO 26262 SPARK reference process", "GCC 13 upgrade, more LLVM compilers"]
+    },
+    {
+      "url": "https://docs.adacore.com/spark2014-docs/html/ug/en/source/object_oriented_programming.html",
+      "title": "SPARK UG 5.8 - Object Oriented Programming and Liskov Substitution Principle",
+      "type": "officialDocs",
+      "qualityScore": 95,
+      "authority": 10, "recency": 9, "depth": 10, "examples": 9, "uniqueness": 10,
+      "confidence": 10,
+      "addedIn": "2026-05-21-extension",
+      "keyInsights": ["Pre'Class weakened (contravariant), Post'Class strengthened (covariant) down hierarchy", "GNATprove uses class-wide contract of static type of controlling operand for dispatching call - no whole-program knowledge needed", "info: class-wide precondition is weaker / postcondition is stronger than overridden one", "specific contracts required on tagged-type operations to check LSP per override", "extension-not-initialized flow check on class-wide conversion"]
+    },
+    {
+      "url": "https://docs.adacore.com/spark2014-docs/html/ug/en/source/how_to_write_object_oriented_contracts.html",
+      "title": "SPARK UG 7.5 - How to Write Object Oriented Contracts",
+      "type": "officialDocs",
+      "qualityScore": 92,
+      "authority": 10, "recency": 9, "depth": 9, "examples": 9, "uniqueness": 9,
+      "confidence": 10,
+      "addedIn": "2026-05-21-extension",
+      "keyInsights": ["contract applying to a dispatching call is the class-wide contract: attached Pre'Class/Post'Class, else inherited from overridden subprogram", "specific contracts used only for static (non-dispatching) calls", "Geometry example contrasting Post (none) vs Post'Class on overrides", "specific Post must be stronger than Post'Class"]
+    },
+    {
+      "url": "https://docs.adacore.com/live/wave/gnatsas/html/user_guide/introduction.html",
+      "title": "GNAT SAS User's Guide 27.0w - Introduction",
+      "type": "officialDocs",
+      "qualityScore": 93,
+      "authority": 10, "recency": 10, "depth": 9, "examples": 6, "uniqueness": 9,
+      "confidence": 10,
+      "addedIn": "2026-05-21-extension",
+      "keyInsights": ["GNAT SAS = set of complementary analysis engines (Infer, Inspector), whole-program semantic analysis", "detects buffer/numeric overflow, null deref, uninitialized vars, data races, CWE Top 25", "baseline comparison to focus on new messages", "results stored in .sam/.sar files (version-controllable), not SQL", "output formats: text/CSV/Code Climate/SARIF/HTML", "gnatcheck coding-standard checks; gnatsas metrics", "full GNAT Studio + CI integration", "doc copyright 2009-2026, version 27.0w"]
+    },
+    {
+      "url": "https://docs.adacore.com/live/wave/gnatsas-release-notes/html/gnatsas_release_note/codepeer_24.html",
+      "title": "GNAT Static Analysis Suite (previously known as CodePeer) 24 Release Notes",
+      "type": "officialDocs",
+      "qualityScore": 94,
+      "authority": 10, "recency": 10, "depth": 8, "examples": 4, "uniqueness": 10,
+      "confidence": 10,
+      "addedIn": "2026-05-21-extension",
+      "keyInsights": ["explicit rename: 'GNAT Static Analysis Suite (previously known as CodePeer)'", "CLI is now 'gnatsas', no longer 'codepeer'", "--level discontinued, replaced by --mode=fast (default) and --mode=deep", "results/reviews stored in version-controllable files instead of SQL database", "incremental analysis in Infer plus pre-existing Inspector incremental", "SARIF output added", "release 24 (2024)"]
+    },
+    {
+      "url": "https://www.adacore.com/static-analysis-suite",
+      "title": "GNAT Static Analysis Suite (AdaCore product page)",
+      "type": "productPages",
+      "qualityScore": 88,
+      "authority": 10, "recency": 10, "depth": 7, "examples": 4, "uniqueness": 8,
+      "confidence": 9,
+      "addedIn": "2026-05-21-extension",
+      "keyInsights": ["whole-program analysis: abstract interpretation, symbolic execution, control/data-flow, taint, memory modeling", "CWE incl Top 25, memory safety, injection", "GNATcheck coding-standard/MISRA checks; custom checks via LKQL", "explicitly heuristic (false positives/negatives) vs SPARK Pro sound formal proof"]
+    }
+  ]
+}

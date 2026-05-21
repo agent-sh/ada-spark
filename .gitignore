@@ -1,0 +1,17 @@
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/
+.claude/settings.local.json
+
+# Ada / GNAT / Alire toolchain
+alire/
+bin/
+obj/
+lib/
+config/
+*.ali
+*.o
+*.gpr.bak
+gnatprove/

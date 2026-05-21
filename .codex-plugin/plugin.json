@@ -1,0 +1,24 @@
+{
+  "name": "ada-spark",
+  "version": "0.1.0",
+  "description": "Teach coding agents to write idiomatic, correct, current Ada and SPARK",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Ada & SPARK",
+    "shortDescription": "Write idiomatic, current Ada and SPARK",
+    "longDescription": "Helps agents write, port, review, and prove Ada and SPARK. Embeds an always-on correction map to prevent stale pre-2022 assumptions (GNAT Community is gone -> Alire; aspects not pragmas; Pre'Class for dispatching; CodePeer is now GNAT SAS; SPARK has move/observe/borrow pointers; Ada 2022 is finalized), with guidance for contracts, the Alire ecosystem, SPARK proof (AoRTE, assurance levels), embedded (Ravenscar/Jorvik), and tooling (GNAT, GNATprove, GNAT SAS).",
+    "developerName": "Avi Fenesh",
+    "category": "developer-tools",
+    "capabilities": [
+      "code-authoring",
+      "formal-verification",
+      "code-review"
+    ],
+    "websiteUrl": "https://github.com/agent-sh/ada-spark",
+    "defaultPrompt": [
+      "Write an Ada package with contracts",
+      "Prove this subprogram free of runtime errors with SPARK",
+      "Set up an Alire project for a Cortex-M target"
+    ]
+  }
+}
