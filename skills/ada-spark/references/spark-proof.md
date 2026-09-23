@@ -39,7 +39,7 @@ GNATprove analyzes instantiations, not generic bodies on their own, so the same 
 
 ## Tagged types and LSP
 
-- `Pre'Class` and `Post'Class` are inherited and govern dispatching calls; a dispatching call is analyzed against the class-wide contract of the controlling operand's specific type.
+- `Pre'Class` and `Post'Class` are inherited and govern dispatching calls. A dispatching call is analyzed against the class-wide contract of the operation for the operand's static (declared) type, never against the override that runs; LSP checking on every override is what makes that sound.
 - In an override, `Pre'Class` must be weaker (or equal) and `Post'Class` stronger (or equal); GNATprove checks this Liskov substitution rule.
 - SPARK rejects a plain (specific) `Pre` on a dispatching subprogram (SPARK RM 6.1.1(2)); state preconditions as `Pre'Class`. A specific `Post` may sit next to `Post'Class` to give non-dispatching callers a more precise result; GNATprove checks it is stronger than the class-wide one. With only class-wide contracts given, they also serve as the specific ones.
 - Converting or extending to a class-wide type requires every component, including ones added by extensions, to be initialized.
