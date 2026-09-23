@@ -1,6 +1,6 @@
 {
   "name": "ada-spark",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "skills": "./skills",
   "description": "Teach coding agents to write idiomatic, correct, current Ada and SPARK. Rides the latest toolchain (Alire + GNAT FSF, Ada 2022) and prevents stale pre-2022 assumptions (GNAT Community, pragma contracts, CodePeer).",
   "author": {

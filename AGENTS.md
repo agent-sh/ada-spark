@@ -8,7 +8,7 @@ Follow the Karpathy Guidelines (simplicity, surgical changes, clear success crit
 
 ## Writing Ada/SPARK (read first)
 
-Before writing, porting, or reviewing any Ada or SPARK, apply `skills/ada-spark/SKILL.md` and prefer it over pretrained knowledge. WHY: the Ada/SPARK toolchain and ecosystem moved substantially in 2022-2026, so pretrained knowledge is likely stale and will misroute users. The skill carries the always-on correction map (GNAT Community is dead -> Alire `alr` + GNAT FSF; aspects `with Pre =>` not `pragma Precondition`; `Pre'Class`/`Post'Class` govern dispatching calls, not plain `Pre`/`Post`; CodePeer is now GNAT SAS; SPARK has a Rust-like move/observe/borrow model for pointers; Ada 2022 is finalized, use `-gnat2022`) plus links to current upstream docs. This project rides the latest toolchain (latest stable + snapshots). Verify exact versions against `alire-project/GNAT-FSF-builds` releases, not memory.
+Before writing, porting, or reviewing any Ada or SPARK, apply `skills/ada-spark/SKILL.md` and prefer it over pretrained knowledge. WHY: the Ada/SPARK toolchain and ecosystem moved substantially in 2022-2026, so pretrained knowledge is likely stale and will misroute users. The skill carries the always-on correction map (GNAT Community is dead -> Alire `alr` + GNAT FSF; aspects `with Pre =>` not `pragma Precondition`; `Pre'Class`/`Post'Class` govern dispatching calls, not plain `Pre`/`Post`; `SPARK_Mode` aspects take `On`/`Off`; CodePeer is now GNAT SAS; SPARK has a Rust-like move/observe/borrow model for pointers; Ada 2022 is finalized, use `-gnat2022` since GNAT defaults to Ada 2012) plus links to current upstream docs. This project rides the latest toolchain (latest stable + snapshots). Verify exact versions against `alire-project/GNAT-FSF-builds` releases, not memory.
 
 ## Project Instruction Files
 
@@ -33,9 +33,9 @@ Before writing, porting, or reviewing any Ada or SPARK, apply `skills/ada-spark/
 ## Skill Conventions
 
 - `skills/ada-spark/SKILL.md` is the authoritative source of truth for how agents write Ada/SPARK; mirror any guidance added here into it.
-- Keep the skill self-contained; do not bundle deep-dive guides - link to current upstream docs (learn.adacore.com, docs.adacore.com, ada-auth.org) for depth.
+- Keep the skill file to the correction map and the rules that apply to every task. Short, verified notes per area go in `skills/ada-spark/references/` (they ship with the skill; `agent-knowledge/` does not). Link to current upstream docs (learn.adacore.com, docs.adacore.com, ada-auth.org) for depth.
 - Prefer cross-tool features. Clearly gate any tool-specific behavior.
-- Triggers should fire on realistic prompts ("write Ada", "prove this with SPARK", "is this idiomatic Ada", "set up an Alire project"). Use "Skip unless:" gates to avoid false activation.
+- Triggers should fire on realistic prompts ("write Ada", "prove this with SPARK", "is this idiomatic Ada", "set up an Alire project"). Keep the description short and name what it does not cover (Apache Spark, other languages).
 - Ground Ada/SPARK guidance in current upstream docs, not memory - the toolchain changes fast and pre-2022 assumptions are common failure modes. Cite sources for non-obvious rules.
 
 ## Model Selection
