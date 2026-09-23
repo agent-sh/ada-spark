@@ -1,6 +1,6 @@
 {
   "name": "ada-spark",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Teach coding agents to write idiomatic, correct, current Ada and SPARK",
   "skills": "./skills",
   "interface": {

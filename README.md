@@ -6,11 +6,11 @@ Ada/SPARK tooling and ecosystem changed substantially between 2022 and 2026. The
 
 ## What it does
 
-- Embeds a stale-to-current correction map agents apply on every Ada/SPARK task: GNAT Community is dead -> Alire (`alr`) + GNAT FSF; `with Pre =>` aspects not `pragma Precondition`; `Pre'Class`/`Post'Class` govern dispatching calls, not plain `Pre`/`Post`; CodePeer is now GNAT SAS; SPARK has a Rust-like move/observe/borrow model for access types; Ada 2022 is finalized (`-gnat2022`).
+- Embeds a stale-to-current correction map agents apply on every Ada/SPARK task: GNAT Community is dead -> Alire (`alr`) + GNAT FSF; `with Pre =>` aspects not `pragma Precondition`; `Pre'Class`/`Post'Class` govern dispatching calls, not plain `Pre`/`Post`; the `SPARK_Mode` aspect takes `On`/`Off`; CodePeer is now GNAT SAS; SPARK has a Rust-like move/observe/borrow model for access types; Ada 2022 is finalized (`-gnat2022`, since GNAT defaults to Ada 2012).
 - Core rules for idiomatic packages, contracts (Pre/Post/Contract_Cases), strong typing, controlled types, and tasking.
 - SPARK guidance: assurance levels (Stone/Bronze/Silver/Gold/Platinum), proof of absence of runtime errors (AoRTE), loop invariants, ghost code, ownership/borrow.
 - Embedded guidance: Ravenscar vs Jorvik profiles, light/embedded runtimes, fixed-point and representation clauses, elaboration order.
-- Links to current upstream docs (learn.adacore.com, docs.adacore.com, ada-auth.org) for depth, rather than bundling a deep-dive guide that would drift.
+- Three short references that ship with the skill (SPARK proof, toolchain, embedded and portability), each checked against upstream docs, plus links to learn.adacore.com, docs.adacore.com and ada-auth.org for depth.
 
 ## Installation
 
@@ -38,8 +38,9 @@ It does not activate for unrelated languages.
 ## Layout
 
 ```
-skills/ada-spark/SKILL.md   the skill (correction map + core rules + workflow + doc links)
-agent-knowledge/            research foundation the skill routes to for deep dives
+skills/ada-spark/SKILL.md   the skill (correction map, core rules, doc links)
+skills/ada-spark/references/ SPARK proof, toolchain, embedded and portability
+agent-knowledge/            sourced research the skill was built from (not installed with it)
 .claude-plugin/             Claude Code plugin + marketplace manifests
 .codex-plugin/              Codex plugin manifest
 ```

@@ -3,7 +3,8 @@
 **Generated**: 2026-05-21
 **Sources**: 50 resources analyzed (AdaCore official docs/blog, Ada Reference Manual 2022, SPARK User's & Reference Guides, GNAT SAS docs, learn.adacore.com, Alire docs, Ada Forum, GitHub)
 **Depth**: deep
-**Primary purpose**: Capture knowledge that state-of-the-art LLMs (GPT-5.5, Opus 4.7, etc.) typically get WRONG or are UNAWARE of due to knowledge cutoffs or material rarity.
+**Primary purpose**: Capture knowledge that language models typically get wrong or are unaware of due to knowledge cutoffs or material rarity.
+**Corrected**: 2026-09-24. Five claims in the original were wrong and are fixed below: `alr install` exists (Alire 2.0+), `SPARK_Mode => Auto` is not a valid aspect and `pragma SPARK_Mode;` means `On`, specific `Pre` is legal Ada on non-abstract tagged primitives (SPARK still rejects it on dispatching subprograms), and GNAT still defaults to Ada 2012. Version numbers below are as of the generation date; check current releases.
 
 ---
 
@@ -37,7 +38,7 @@ This is not a from-scratch Ada tutorial. It is a correction layer over what an L
 - **[LLM TRAP] `Pre` and `Pre'Class` are different contracts.** On a dispatching primitive of a tagged type, plain `Pre` is *not* inherited by overrides and is *not* what a dispatching call checks; you must use `Pre'Class`. See the class-wide contracts section.
 - **[CURRENT] SPARK has a Rust-like ownership/borrow model for pointers since ~2019/SPARK 20–22.** "SPARK can't do pointers" is outdated. It can, via move/observe/borrow semantics on access types.
 - **[CURRENT] CodePeer is now GNAT SAS (GNAT Static Analysis Suite).** The bundle was renamed and the CLI is now `gnatsas`, not `codepeer`. It is *unsound heuristic* bug-finding, NOT formal proof — do not conflate it with GNATprove.
-- **[CURRENT] Ada 2022 is finalized and shipping** (string interpolation, `'Image` for any type, `@` target name, `'Reduce`, declare expressions, square-bracket array aggregates, parallel loops, the **Jorvik** profile). Use `-gnat2022`. GNAT 2022 is the default language version in recent GCC.
+- **[CURRENT] Ada 2022 is finalized and shipping** (string interpolation, `'Image` for any type, `@` target name, `'Reduce`, declare expressions, square-bracket array aggregates, parallel loops, the **Jorvik** profile). Use `-gnat2022`: GNAT's default language mode is still Ada 2012.
 - **[LLM TRAP] Stop hallucinating standard library units.** There is no `Ada.Strings.Format`, no `Ada.IO`, no generic `Ada.Collections`. The real names are precise (`Ada.Text_IO`, `Ada.Strings.Unbounded`, `Ada.Containers.Vectors`, etc.).
 
 ---
@@ -61,7 +62,7 @@ Everything GNAT Community offered (GNAT Studio, SPARK, native + cross ARM + cros
 - Toolchain crates you select with `alr toolchain --select`: `gnat_native` (stable **15.2.1**), `gprbuild` (FSF build **26.0.0-1**, 2026-05-07 — the 25.x line was 2025), `gnatprove` (stable 15.1.0; `16.0.0-snapshot` exists 2026-05).
 - GNAT FSF binaries are produced by the `alire-project/GNAT-FSF-builds` repo (tags like `gnat-15.2.0-1` for the stable line, `gnat-16.0.1-snapshot` for dev).
 
-**[LLM TRAP]** Do not invent `alr install <pkg>` semantics from cargo. Common real commands: `alr init --bin myproj`, `alr with <crate>` (add dependency), `alr build`, `alr run`, `alr toolchain --select`, `alr search <crate>`, `alr publish`.
+Common commands: `alr init --bin myproj`, `alr with <crate>` (add dependency), `alr build`, `alr run`, `alr exec -- <cmd>`, `alr toolchain --select`, `alr search <crate>`, `alr publish`. `alr install` (Alire 2.0+, experimental) installs binary releases such as `gnat_native`, `gprbuild` or `gnatprove` to the Alire bin directory in your home (`.alire/bin`); it does not add library dependencies, which is `alr with`.
 
 #### IDEs and editors [CURRENT]
 - **GNAT Studio** still exists (versioned like `2026.x`) but AdaCore's strategic direction is the **Ada Language Server (ALS)** + the **Ada & SPARK VS Code extension** (on both VS Marketplace and Open VSX).
@@ -104,14 +105,14 @@ Key facts LLMs get wrong:
 
 ### 3. SPARK_Mode — three values, applied with care [LLM TRAP]
 
-`SPARK_Mode` is **three-valued**: `On`, `Off`, `Auto`.
-- `On` — the construct must be valid SPARK and **will** be analyzed by GNATprove.
-- `Off` — not analyzed, need not obey SPARK restrictions (use for code that can't be SPARK, e.g., uses exceptions or unrestricted pointers).
-- `Auto` (the default for code without an explicit setting) — not analyzed, GNATprove infers whether it can be used from SPARK code.
+The `SPARK_Mode` aspect takes `On` or `Off`; `pragma SPARK_Mode (Auto | On | Off)` also exists, and `Auto` is only allowed as a configuration pragma (SPARK User's Guide, "Identifying SPARK Code").
+- `On`: the construct must be valid SPARK and is analyzed by GNATprove. `pragma SPARK_Mode;` or `with SPARK_Mode` with no value means `On`.
+- `Off`: not analyzed, need not obey SPARK restrictions (use for code that can't be SPARK, e.g., uses exceptions or unrestricted pointers).
+- `Auto` (configuration pragma only): the file is analyzed as if no `SPARK_Mode` were given, which is useful inside a project whose configuration pragma file sets `On`.
 
 You can set it as a configuration pragma (whole project), per package, or split spec/body (common pattern: spec `SPARK_Mode => On`, body `SPARK_Mode => Off` to expose a proven interface over an unprovable implementation).
 
-**[LLM TRAP]** Models often write `pragma SPARK_Mode;` with no value, or assume `On` is default project-wide. It is not — without configuration, analysis scope is `Auto`/opt-in.
+**[LLM TRAP]** Models often assume `On` is the default project-wide. It is not: without a configuration pragma, only parts explicitly marked `On` are in SPARK. Writing `SPARK_Mode => Auto` as an aspect is an error.
 
 ### 4. SPARK Assurance Levels (the ladder) [CURRENT, frequently misordered]
 
@@ -310,7 +311,7 @@ end My_Proj;
 | Treating SPARK == Ada | Conflation | SPARK is a subset + annotations; verify with `SPARK_Mode => On` |
 | "SPARK can't do pointers" | Pre-2019 knowledge | Ownership/borrow model since SPARK 20–22 |
 | Plain `and`/`or` in contracts | C-style habit | Use `and then`/`or else` to guard evaluation |
-| Writing `Pre`/`Post` on a dispatching tagged primitive and expecting inheritance | Treating tagged like flat subprograms | Use `Pre'Class`/`Post'Class`; specific `Pre` is illegal on a tagged primitive and is never inherited for dispatch |
+| Writing `Pre`/`Post` on a dispatching tagged primitive and expecting inheritance | Treating tagged like flat subprograms | Use `Pre'Class`/`Post'Class`; specific `Pre` is legal Ada on non-abstract tagged primitives (RM 6.1.1 forbids it only on abstract subprograms and null procedures) but is never inherited, and SPARK rejects it on dispatching subprograms (SPARK RM 6.1.1(2)) |
 | Strengthening `Pre'Class` (or weakening `Post'Class`) in an override | Forgetting LSP variance | `Pre'Class` weakens down, `Post'Class` strengthens down |
 | Expecting GNATprove to verify a generic body abstractly | Assuming whole-generic analysis | Only instances are analyzed; put `SPARK_Mode` on the instantiation context |
 | Conflating CodePeer/GNAT SAS with GNATprove | Both are "SPARK/AdaCore static tools" | GNAT SAS is unsound heuristic bug-finding; GNATprove is sound proof of AoRTE |
