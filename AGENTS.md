@@ -12,9 +12,8 @@ Before writing, porting, or reviewing any Ada or SPARK, apply `skills/ada-spark/
 
 ## Project Instruction Files
 
-- `CLAUDE.md` is the project memory entrypoint for Claude Code.
-- `AGENTS.md` is a byte-for-byte copy of `CLAUDE.md` for tools that read `AGENTS.md` (Codex CLI, OpenCode, Cursor, Cline, Copilot).
-- Keep them identical. When editing one, update the other in the same commit.
+`AGENTS.md` is the repository instruction source. Keep directory-specific guidance
+in the corresponding nested `AGENTS.md`.
 
 ## Critical Rules
 
@@ -68,3 +67,12 @@ Before considering changes complete:
 - Ada 2022 Reference Manual: http://www.ada-auth.org/standards/22rm/html/RM-TOC.html
 - Alire (package manager): https://alire.ada.dev
 - https://agentskills.io
+
+## Validation scope
+
+Choose checks that cover the changed behavior. For CPU-only tooling, documentation
+and configuration changes, run the relevant CPU tests, static checks and configuration
+validation. Do not require a blanket GPU gate for those changes. Require GPU
+qualification when GPU, runtime or model behavior, or related claims, change.
+Preserve applicable native, model and hardware qualification gates. CPU checks do
+not qualify GPU behavior.
