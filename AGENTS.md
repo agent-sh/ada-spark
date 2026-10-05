@@ -4,60 +4,32 @@
 
 **Repository**: https://github.com/agent-sh/ada-spark
 
-Follow the Karpathy Guidelines (simplicity, surgical changes, clear success criteria) when editing this plugin.
+## Writing Ada/SPARK here
 
-## Writing Ada/SPARK (read first)
+Before writing, porting or reviewing Ada or SPARK in this repo, apply `skills/ada-spark/SKILL.md` over what you remember: the toolchain and ecosystem moved a lot in 2022-2026, so pretrained knowledge is likely stale. This project rides the latest toolchain (latest stable plus snapshots); check exact versions against the `alire-project/GNAT-FSF-builds` releases.
 
-Before writing, porting, or reviewing any Ada or SPARK, apply `skills/ada-spark/SKILL.md` and prefer it over pretrained knowledge. WHY: the Ada/SPARK toolchain and ecosystem moved substantially in 2022-2026, so pretrained knowledge is likely stale and will misroute users. The skill carries the always-on correction map (GNAT Community is dead -> Alire `alr` + GNAT FSF; aspects `with Pre =>` not `pragma Precondition`; `Pre'Class`/`Post'Class` govern dispatching calls, not plain `Pre`/`Post`; `SPARK_Mode` aspects take `On`/`Off`; CodePeer is now GNAT SAS; SPARK has a Rust-like move/observe/borrow model for pointers; Ada 2022 is finalized, use `-gnat2022` since GNAT defaults to Ada 2012) plus links to current upstream docs. This project rides the latest toolchain (latest stable + snapshots). Verify exact versions against `alire-project/GNAT-FSF-builds` releases, not memory.
+## Conventions
 
-## Project Instruction Files
+- Output is plain text with the status markers `[OK]`, `[ERROR]`, `[WARN]`, `[CRITICAL]`, and no emojis or ASCII art.
+- In prose, write a spaced single dash (` - `), not ` -- ` or an em dash. CLI flags like `--help` are fine.
+- Put summaries, plans and audit notes in the PR or issue, not in committed files.
+- Changes reach main through a PR. Keep git hooks on, and answer every review comment, in the thread when you disagree.
+- When a script or tool fails, report the failure before working around it, so the tool gets fixed.
+- When goals conflict, rank them: plugin users' experience, automation that needs no babysitting, token cost, output quality, simplicity.
 
-`AGENTS.md` is the repository instruction source. Keep directory-specific guidance
-in the corresponding nested `AGENTS.md`.
+## Skill conventions
 
-## Critical Rules
-
-1. **Plain text output** - No emojis, no ASCII art. Use `[OK]`, `[ERROR]`, `[WARN]`, `[CRITICAL]` for status markers.
-2. **No unnecessary files** - Create only the files a task needs; skip summary, plan, audit, and temp docs unless required.
-3. **Task is not done until it passes** - Every feature/fix needs quality tests, and `agnix` must be green before merge.
-4. **Create PRs for non-trivial changes** - No direct pushes to main.
-5. **Always run git hooks** - Let pre-commit and pre-push hooks run; never bypass them.
-6. **Use single dash for em-dashes** - In prose, use ` - ` (single dash with spaces), never ` -- `. Does not apply to CLI flags like `--help`.
-7. **Report script failures before manual fallback** - Surface broken tooling; never silently bypass it.
-8. **Address all PR review comments** - Even minor ones. If you disagree, respond in the review thread.
-9. **Wait for the claude workflow before merging** - It is the major quality gate and most thorough review; merge only after it passes.
-10. **Follow the skill/command flow exactly** - If a flow specifies subagents, tools, or phases, follow them in order with no deviations.
-11. **Token efficiency** - Save tokens over decorations.
-
-## Skill Conventions
-
-- `skills/ada-spark/SKILL.md` is the authoritative source of truth for how agents write Ada/SPARK; mirror any guidance added here into it.
-- Keep the skill file to the correction map and the rules that apply to every task. Short, verified notes per area go in `skills/ada-spark/references/` (they ship with the skill; `agent-knowledge/` does not). Link to current upstream docs (learn.adacore.com, docs.adacore.com, ada-auth.org) for depth.
-- Prefer cross-tool features. Clearly gate any tool-specific behavior.
+- `skills/ada-spark/SKILL.md` is the source of truth for how agents write Ada/SPARK; mirror any guidance added here into it.
+- Keep the skill file to the correction map and the rules that apply to every task. Short, verified notes per area go in `skills/ada-spark/references/`, which ship with the skill; `agent-knowledge/` does not. Link to current upstream docs (learn.adacore.com, docs.adacore.com, ada-auth.org) for depth.
+- Prefer cross-tool features, and mark any tool-specific behavior as such.
 - Triggers should fire on realistic prompts ("write Ada", "prove this with SPARK", "is this idiomatic Ada", "set up an Alire project"). Keep the description short and name what it does not cover (Apache Spark, other languages).
-- Ground Ada/SPARK guidance in current upstream docs, not memory - the toolchain changes fast and pre-2022 assumptions are common failure modes. Cite sources for non-obvious rules.
-
-## Model Selection
-
-| Model | When to Use |
-|-------|-------------|
-| **Opus** | Complex reasoning, analysis, planning |
-| **Sonnet** | Validation, pattern matching, most agents |
-| **Haiku** | Mechanical execution, no judgment needed |
-
-## Core Priorities
-
-1. User DX (plugin users first)
-2. Worry-free automation
-3. Token efficiency
-4. Quality output
-5. Simplicity
+- Ground Ada/SPARK guidance in current upstream docs, not memory, and cite sources for non-obvious rules: pre-2022 assumptions are the common failure.
 
 ## Testing
 
-Before considering changes complete:
-- Run `agnix` on the skill (zero errors).
-- Verify the skill activates on realistic prompts in Claude Code and at least one other tool (Cursor or Codex recommended).
+- `agnix --config .agnix.toml .` with zero errors, and `claude plugin validate .` for the manifests. CI runs both.
+- For a trigger or description change, check that the skill activates on realistic prompts in Claude Code and one other tool (Cursor or Codex).
+- Add a `CHANGELOG.md` entry under Unreleased.
 
 ## References
 
@@ -67,12 +39,3 @@ Before considering changes complete:
 - Ada 2022 Reference Manual: http://www.ada-auth.org/standards/22rm/html/RM-TOC.html
 - Alire (package manager): https://alire.ada.dev
 - https://agentskills.io
-
-## Validation scope
-
-Choose checks that cover the changed behavior. For CPU-only tooling, documentation
-and configuration changes, run the relevant CPU tests, static checks and configuration
-validation. Do not require a blanket GPU gate for those changes. Require GPU
-qualification when GPU, runtime or model behavior, or related claims, change.
-Preserve applicable native, model and hardware qualification gates. CPU checks do
-not qualify GPU behavior.
