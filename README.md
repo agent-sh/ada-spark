@@ -7,7 +7,7 @@ Ada/SPARK tooling and ecosystem changed substantially between 2022 and 2026. The
 ## What it does
 
 - Embeds a stale-to-current correction map agents apply on every Ada/SPARK task: GNAT Community is dead -> Alire (`alr`) + GNAT FSF; `with Pre =>` aspects not `pragma Precondition`; `Pre'Class`/`Post'Class` govern dispatching calls, not plain `Pre`/`Post`; the `SPARK_Mode` aspect takes `On`/`Off`; CodePeer is now GNAT SAS; SPARK has a Rust-like move/observe/borrow model for access types; Ada 2022 is finalized (`-gnat2022`, since GNAT defaults to Ada 2012).
-- Core rules for idiomatic packages, contracts (Pre/Post/Contract_Cases), strong typing, controlled types, and tasking.
+- Core rules for Alire projects, contracts (Pre/Post/Contract_Cases, `'Result`, `'Old`), what proof needs (loop invariants, callee postconditions), GNAT SAS versus GNATprove, and what light runtimes drop (exception propagation, controlled types, tasking).
 - SPARK guidance: assurance levels (Stone/Bronze/Silver/Gold/Platinum), proof of absence of runtime errors (AoRTE), loop invariants, ghost code, ownership/borrow.
 - Embedded guidance: Ravenscar vs Jorvik profiles, light/embedded runtimes, fixed-point and representation clauses, elaboration order.
 - Three short references that ship with the skill (SPARK proof, toolchain, embedded and portability), each checked against upstream docs, plus links to learn.adacore.com, docs.adacore.com and ada-auth.org for depth.

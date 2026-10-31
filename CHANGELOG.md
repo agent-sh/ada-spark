@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - AGENTS.md trimmed for current models: dropped the generic model-selection table, the GPU validation text, the Karpathy line, the "follow the flow exactly, no deviations" rule and the rule to wait for a `claude` workflow this repo does not have. The correction list now lives only in the skill. Conventions are stated once with their reasons, and Testing names the two checks CI runs. The skill is unchanged; it was rewritten for current models in 0.2.0.
 
+### Fixed
+- README: the "Core rules" line now lists the rules the 0.2.0 skill holds (Alire, contracts, proof needs, GNAT SAS versus GNATprove, light runtimes). Packages, strong typing, controlled types and tasking stopped being core rules in the 0.2.0 rewrite.
+
 ## [0.2.0] - 2026-09-24
 
 ### Changed
